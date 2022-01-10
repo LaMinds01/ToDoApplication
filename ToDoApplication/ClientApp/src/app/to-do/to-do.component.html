@@ -1,0 +1,53 @@
+<div class="card">
+    <div class="card-header">ToDo List</div>
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <div class="row g-3">
+                <div class="col-8">
+                    <label for="reminderText" class="visually-hidden"></label>
+                    <input type="text" class="form-control" id="reminderText" placeholder="Enter Reminder"
+                        formControlName="reminderText">
+                    <div *ngIf="f['reminderText'].touched && f['reminderText'].invalid" class="text-danger">
+                        <div *ngIf="f['reminderText'].errors && f['reminderText'].errors['required']">Reminder text is
+                            required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" [disabled]="form.invalid" class="btn btn-success mb-3 me-3">{{ButtonTitle}}</button>
+                    <button type="button" (click)="Reset()" class="btn btn-secondary mb-3">Reset</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th [width]="80">No.</th>
+                            <th>Reminder</th>
+                            <th [width]="200" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let obj of TodoList; let i = index" [ngClass]="{'strike-out': obj.IsDeleted}">
+                            <td>{{obj.SequenceNo}}</td>
+                            <td>{{obj.ReminderText}}</td>
+                            <td class="text-center">
+                                <div *ngIf="!obj.IsDeleted">
+                                <button type="button" class="btn btn-warning me-2" (click)="EditToDo(obj)">Edit</button>
+                                <button type="button" class="btn btn-danger" (click)="DeleteToDo(obj,i)">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="TodoList.length <= 0">
+                            <td class="text-center text-danger" colspan="3"> -- Empty ToDo list --
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
